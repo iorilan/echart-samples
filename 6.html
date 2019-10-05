@@ -1,0 +1,385 @@
+<!doctype html>
+    <html>
+    <head>
+    	<title></title>
+    	<script src="echarts.min.js"></script>
+    </head>
+    <body>
+    	<div id="chart" style="width: 100%; height: 500px;"></div>
+    	<script>
+    		var chart = document.getElementById('chart');
+    		var myChart = echarts.init(chart);
+    		var dataMap = {};
+            var locations = ['1','2','3','4','5','6','7'];
+            var types = ['a', 'b', 'c', 'd', 'e'];
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+function dataFormatter(obj) {
+    var pList = locations;
+    var temp;
+    for (var year = 1; year <= 12; year++) {
+        var max = 0;
+        var sum = 0;
+        temp = obj[year];
+        for (var i = 0, l = temp.length; i < l; i++) {
+            max = Math.max(max, temp[i]);
+            sum += temp[i];
+            obj[year][i] = {
+                name : pList[i],
+                value : temp[i]
+            }
+        }
+        obj[year + 'max'] = Math.floor(max / 100) * 100;
+        obj[year + 'sum'] = sum;
+    }
+    return obj;
+}
+
+dataMap.dataT1 = dataFormatter({
+    1:[293,112,233,965,449,1029,494],
+    2:[864,223,59,418,777,613,972],
+    3:[501,338,696,55,892,250,609],
+    4:[732,568,927,286,122,481,840],
+    5:[270,629,466,824,183,20,378],
+    6:[398,235,593,952,789,147,984],
+    7:[13,850,209,567,404,763,599],
+    8:[2,838,197,33,392,751,587],
+    9:[760,596,955,314,150,509,345],
+    10:[295,132,490,686,44,881,598],
+    11:[549,908,744,744,103,462,298],
+    12:[298,657,494,494,852,211,219]
+});
+
+dataMap.dataT2 = dataFormatter({
+    1:[276,112,112,471,830,830,660],
+    2:[25,25,861,220,579,579,415],
+    3:[774,774,133,969,969,328,165],
+    4:[165,523,882,719,719,77,436],
+    5:[436,273,631,468,468,827,185],
+    6:[185,22,381,381,739,576,935],
+    7:[935,771,130,130,489,325,325],
+    8:[684,43,879,879,238,74,74],
+    9:[433,792,792,628,987,346,346],
+    10:[182,541,541,377,736,736,95],
+    11:[931,931,290,649,485,485,844],
+    12:[680,680,39,398,398,234,593],
+});
+dataMap.dataT3 = dataFormatter({
+    1:[297,656,492,492,851,210,46,],
+    2:[46,405,241,241,600,959,959,],
+    3:[795,154,513,513,349,708,708,],
+    4:[545,903,903,262,99,457,457,],
+    5:[816,653,653,11,848,848,207,],
+    6:[565,402,402,761,119,119,956,],
+    7:[314,314,151,510,868,868,705,],
+    8:[64,64,422,259,618,618,454,],
+    9:[813,813,172,8,8,367,726,],
+    10:[562,562,921,757,757,116,475,],
+    11:[475,311,670,29,29,865,224,],
+    12:[224,60,419,419,778,614,973,]
+});
+dataMap.dataT4 = dataFormatter({
+    1:[854,212,212,571,408,408,766,],
+    2:[603,962,962,320,157,157,516,],
+    3:[874,711,711,69,906,906,265,],
+    4:[623,623,460,819,819,177,14,],
+    5:[373,373,209,568,568,927,763,],
+    6:[763,122,481,317,317,676,512,],
+    7:[512,871,230,230,66,425,784,],
+    8:[784,620,979,979,815,174,174,],
+    9:[533,369,728,728,87,923,923,],
+    10:[282,119,119,477,836,673,673,],
+    11:[31,390,390,227,585,585,422,],
+    12:[781,781,139,976,334,334,693,]
+});
+dataMap.dataT5 = dataFormatter({
+    1:[828,187,23,382,382,741,577,],
+    2:[577,936,295,295,131,490,326,],
+    3:[326,685,44,44,880,239,239,],
+    4:[598,434,434,793,629,988,988,],
+    5:[347,183,183,542,901,901,737,],
+    6:[96,932,932,291,650,650,486,],
+    7:[845,845,204,40,399,399,236,],
+    8:[594,594,953,790,790,148,507,],
+    9:[507,344,702,539,539,898,256,],
+    10:[256,93,452,452,810,647,647,],
+    11:[6,842,201,201,560,396,396,],
+    12:[755,113,113,950,309,309,145,]
+});
+
+
+option = {
+    baseOption: {
+        timeline: {
+            // y: 0,
+            axisType: 'category',
+            // realtime: false,
+            // loop: false,
+            autoPlay: false,
+            // currentIndex: 2,
+            playInterval: 1000,
+            // controlStyle: {
+            //     position: 'left'
+            // },
+            data: months,
+           // [
+            //    '1','2','3',
+                // {
+                //     value: 'Mar',
+                //     tooltip: {
+                //         formatter: '{b} Peak1'
+                //     },
+                //     symbol: 'diamond',
+                //     symbolSize: 16
+                // },
+               // '4', '5','6','7','8','9'
+                // {
+                //     value: 'Oct',
+                //     tooltip: {
+                //         formatter: function (params) {
+                //             return params.name + ' Peak2';
+                //         }
+                //     },
+                //     symbol: 'diamond',
+                //     symbolSize: 18
+                // }
+            //    ,'10','11'
+            //],
+            label: {
+                formatter : function(s) {
+                    return s;
+                }
+            }
+        },
+        title: {
+            subtext: 'Company System'
+        },
+        tooltip: {
+        },
+        legend: {
+            x: 'right',
+            data: types,
+            selected: {
+                'a': false, 'b': false, 'c': false
+            }
+        },
+        calculable : true,
+        grid: {
+            top: 80,
+            bottom: 100,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow',
+                    label: {
+                        show: true,
+                        formatter: function (params) {
+                            return params.value.replace('\n', '');
+                        }
+                    }
+                }
+            }
+        },
+        xAxis: [
+            {
+                'type':'category',
+                'axisLabel':{'interval':0},
+                'data':locations,
+                splitLine: {show: true}
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: 'A Count'
+            }
+        ],
+        series: [
+            {name: 'a', type: 'bar'},
+            {name: 'b', type: 'bar'},
+            {name: 'c', type: 'bar'},
+            {name: 'd', type: 'bar'},
+            {name: 'e', type: 'bar'},
+            {
+                name: 'A Count',
+                type: 'pie',
+                center: ['94%', '50%'],
+                radius: '12%',
+                z: 100
+            }
+        ]
+    },
+    options: [
+        {
+            title: {text: 'JAN'},
+            series: [
+                {data: dataMap.dataT1['1']},
+                {data: dataMap.dataT2['1']},
+                {data: dataMap.dataT3['1']},
+                {data: dataMap.dataT4['1']},
+                {data: dataMap.dataT5['1']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['1sum']},
+                    {name: 'b', value: dataMap.dataT5['1sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Feb'},
+            series : [
+                {data: dataMap.dataT1['2']},
+                {data: dataMap.dataT2['2']},
+                {data: dataMap.dataT3['2']},
+                {data: dataMap.dataT4['2']},
+                {data: dataMap.dataT5['2']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['2sum']},
+                    {name: 'b', value: dataMap.dataT5['2sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Mar'},
+            series : [
+                {data: dataMap.dataT1['3']},
+                {data: dataMap.dataT2['3']},
+                {data: dataMap.dataT3['3']},
+                {data: dataMap.dataT4['3']},
+                {data: dataMap.dataT5['3']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['3sum']},
+                    {name: 'b', value: dataMap.dataT5['3sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'apr'},
+            series : [
+            {data: dataMap.dataT1['4']},
+                {data: dataMap.dataT2['4']},
+                {data: dataMap.dataT3['4']},
+                {data: dataMap.dataT4['4']},
+                {data: dataMap.dataT5['4']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['4sum']},
+                    {name: 'b', value: dataMap.dataT5['4sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'May'},
+            series : [
+                 {data: dataMap.dataT1['5']},
+                {data: dataMap.dataT2['5']},
+                {data: dataMap.dataT3['5']},
+                {data: dataMap.dataT4['5']},
+                {data: dataMap.dataT5['5']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['5sum']},
+                    {name: 'b', value: dataMap.dataT5['5sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Jun'},
+            series : [
+            {data: dataMap.dataT1['6']},
+                {data: dataMap.dataT2['6']},
+                {data: dataMap.dataT3['6']},
+                {data: dataMap.dataT4['6']},
+                {data: dataMap.dataT5['6']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['6sum']},
+                    {name: 'b', value: dataMap.dataT5['6sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Jul'},
+            series : [
+            {data: dataMap.dataT1['7']},
+                {data: dataMap.dataT2['7']},
+                {data: dataMap.dataT3['7']},
+                {data: dataMap.dataT4['7']},
+                {data: dataMap.dataT5['7']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['7sum']},
+                    {name: 'b', value: dataMap.dataT5['7sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'aug'},
+            series : [
+            {data: dataMap.dataT1['8']},
+                {data: dataMap.dataT2['8']},
+                {data: dataMap.dataT3['8']},
+                {data: dataMap.dataT4['8']},
+                {data: dataMap.dataT5['8']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['8sum']},
+                    {name: 'b', value: dataMap.dataT5['8sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Sep'},
+            series : [
+                {data: dataMap.dataT1['9']},
+                {data: dataMap.dataT2['9']},
+                {data: dataMap.dataT3['9']},
+                {data: dataMap.dataT4['9']},
+                {data: dataMap.dataT5['9']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['9sum']},
+                    {name: 'b', value: dataMap.dataT5['9sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Oct'},
+            series : [
+                {data: dataMap.dataT1['10']},
+                {data: dataMap.dataT2['10']},
+                {data: dataMap.dataT3['10']},
+                {data: dataMap.dataT4['10']},
+                {data: dataMap.dataT5['10']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['10sum']},
+                    {name: 'b', value: dataMap.dataT5['10sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Nov'},
+            series : [
+                {data: dataMap.dataT1['11']},
+                {data: dataMap.dataT2['11']},
+                {data: dataMap.dataT3['11']},
+                {data: dataMap.dataT4['11']},
+                {data: dataMap.dataT5['11']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['11sum']},
+                    {name: 'b', value: dataMap.dataT5['11sum']}
+                ]}
+            ]
+        },
+        {
+            title : {text: 'Dec'},
+            series : [
+                {data: dataMap.dataT1['12']},
+                {data: dataMap.dataT2['12']},
+                {data: dataMap.dataT3['12']},
+                {data: dataMap.dataT4['12']},
+                {data: dataMap.dataT5['12']},
+                {data: [
+                    {name: 'a', value: dataMap.dataT1['12sum']},
+                    {name: 'b', value: dataMap.dataT5['12sum']}
+                ]}
+            ]
+        },
+    ]
+};
+    		myChart.setOption(option);
+    	</script>
+    </body>
+    </html>

@@ -1,0 +1,27 @@
+<!doctype html>
+    <html>
+    <head>
+    	<title></title>
+    	<script src="echarts.min.js"></script>
+    </head>
+    <body>
+    	<div id="chart" style="width: 500px; height: 350px;"></div>
+    	<script>
+    		var chart = document.getElementById('chart');
+    		var myChart = echarts.init(chart);
+    		var option = {
+    			title: { text: 'System' },
+    			tooltip: { },
+    			legend: { data: [ 'As' ] },
+    			xAxis: { data: [ "1", "2", "3"] },
+    			yAxis: { },
+    			series: [{
+    				name: 'Sales',
+    				type: 'bar',
+    				data: [5, 20, 36]
+    			}]
+    		};
+    		myChart.setOption(option);
+    	</script>
+    </body>
+    </html>

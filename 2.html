@@ -1,0 +1,29 @@
+<!doctype html>
+    <html>
+    <head>
+    	<title></title>
+    	<script src="echarts.min.js"></script>
+    </head>
+    <body>
+    	<div id="chart" style="width: 500px; height: 350px;"></div>
+    	<script>
+    		var chart = document.getElementById('chart');
+    		var myChart = echarts.init(chart);
+    		option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line'
+                }]
+            };
+
+    		myChart.setOption(option);
+    	</script>
+    </body>
+    </html>

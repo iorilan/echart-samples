@@ -1,0 +1,125 @@
+<!doctype html>
+    <html>
+    <head>
+        <title></title>
+        <script src="../jquery-1.10.2.min.js" ></script>
+        <script src="../echarts.min.js"></script>
+        <script src="../theme/essos.js"></script>
+    </head>
+    <body>
+    	<div id="chart" style="width: 100%px; height: 700px;"></div>
+    	<script>
+    		var chart = document.getElementById('chart');
+    		var myChart = echarts.init(chart,'essos')
+    		
+    		myChart.showLoading();
+
+            $.get('data.json', function (diskData) {
+                myChart.hideLoading();
+                console.log(diskData);
+
+                function colorMappingChange(value) {
+                    var levelOption = getLevelOption(value);
+                    chart.setOption({
+                        series: [{
+                            levels: levelOption
+                        }]
+                    });
+                }
+
+                var formatUtil = echarts.format;
+
+                function getLevelOption() {
+                    return [
+                        {
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#777',
+                                    borderWidth: 0,
+                                    gapWidth: 1
+                                }
+                            },
+                            upperLabel: {
+                                normal: {
+                                    show: false
+                                }
+                            }
+                        },
+                        {
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#555',
+                                    borderWidth: 5,
+                                    gapWidth: 1
+                                },
+                                emphasis: {
+                                    borderColor: '#ddd'
+                                }
+                            }
+                        },
+                        {
+                            colorSaturation: [0.35, 0.5],
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 5,
+                                    gapWidth: 1,
+                                    borderColorSaturation: 0.6
+                                }
+                            }
+                        }
+                    ];
+                }
+
+                myChart.setOption(option = {
+
+                    title: {
+                        text: 'Company System',
+                        left: 'center'
+                    },
+
+                    tooltip: {
+                        formatter: function (info) {
+                            var value = info.value;
+                            var treePathInfo = info.treePathInfo;
+                            var treePath = [];
+
+                            for (var i = 1; i < treePathInfo.length; i++) {
+                                treePath.push(treePathInfo[i].name);
+                            }
+
+                            return [
+                                '<div class="tooltip-title">' + formatUtil.encodeHTML(treePath.join('/')) + '</div>',
+                                formatUtil.addCommas(value) + ' Counts',
+                            ].join('');
+                        }
+                    },
+
+                    series: [
+                        {
+                            name:'Company System',
+                            type:'treemap',
+                            visibleMin: 300,
+                            label: {
+                                show: true,
+                                formatter: '{b}'
+                            },
+                            upperLabel: {
+                                normal: {
+                                    show: true,
+                                    height: 30
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#fff'
+                                }
+                            },
+                            levels: getLevelOption(),
+                            data: diskData
+                        }
+                    ]
+                });
+            });
+    	</script>
+    </body>
+    </html>
